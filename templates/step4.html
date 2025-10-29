@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4 of 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        .progress-glow {
+            background: linear-gradient(90deg, #76ff03 0%, #b388ff 100%);
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.4);
+        }
+
+        .btn-urgent {
+            background: rgba(30, 30, 30, 0.8);
+            border: 3px solid #ff4444;
+            color: #ff4444;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-urgent:hover {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            color: white;
+            border-color: #ff4444;
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.4);
+            transform: scale(1.03);
+        }
+
+        .btn-normal {
+            background: rgba(30, 30, 30, 0.8);
+            border: 3px solid #76ff03;
+            color: #76ff03;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-normal:hover {
+            background: linear-gradient(135deg, #76ff03 0%, #64dd17 100%);
+            color: black;
+            border-color: #76ff03;
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.4);
+            transform: scale(1.03);
+        }
+
+        .info-glow {
+            background: rgba(30, 30, 30, 0.6);
+            border-left: 4px solid #76ff03;
+            box-shadow: 0 0 15px rgba(118, 255, 3, 0.1);
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { 'neon-green': '#76ff03', 'neon-purple': '#b388ff' } } } }
+    </script>
+</head>
+<body class="text-gray-100 min-h-screen p-4 md:p-8">
+    <div class="container max-w-3xl mx-auto">
+        <div class="progress-glow text-black px-6 py-4 rounded-lg text-center font-bold text-lg mb-8">Step 4 of 4 - Almost done!</div>
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 text-white" style="text-wrap: balance;">Is this urgent?</h1>
+            <p class="text-lg text-gray-300" style="text-wrap: balance;">Are users affected right now?</p>
+        </div>
+        <form action="/investigating" method="POST">
+            <div class="space-y-5 mb-8">
+                <button type="submit" name="is_urgent" value="yes" class="btn-urgent w-full px-8 py-6 rounded-xl text-xl font-bold text-center shadow-lg hover:shadow-xl">🚨 Yes - Users are affected right now</button>
+                <button type="submit" name="is_urgent" value="no" class="btn-normal w-full px-8 py-6 rounded-xl text-xl font-bold text-center shadow-lg hover:shadow-xl">⏰ No - Can wait, not blocking anyone</button>
+            </div>
+            <div class="info-glow p-6 md:p-8 rounded-lg shadow-md">
+                <p class="font-bold text-lg mb-2" style="color: #76ff03;">What happens next:</p>
+                <p class="text-gray-200">Our AI will investigate the issue and notify the technical team with all the details they need.</p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

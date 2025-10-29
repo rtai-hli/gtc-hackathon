@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-20251029192820",
+  "user_description": "",
+  "what_trying_to_do": "Process a donation or payment",
+  "what_happened_instead": "The page is loading very slowly",
+  "when_started": "Just now (last 5 minutes)",
+  "is_urgent": true,
+  "screenshot_path": null,
+  "additional_notes": null,
+  "submitted_at": "2025-10-29T19:28:20.300207"
+}

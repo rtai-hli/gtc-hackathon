@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-20251029190947",
+  "user_description": "",
+  "what_trying_to_do": "Send email receipts or messages",
+  "what_happened_instead": "Got an error message",
+  "when_started": "Within the last hour",
+  "is_urgent": true,
+  "screenshot_path": null,
+  "additional_notes": null,
+  "submitted_at": "2025-10-29T19:09:47.133686"
+}

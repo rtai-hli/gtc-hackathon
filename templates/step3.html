@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 3 of 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        :root { --brand-color: oklch(78% 0.25 130); }
+
+        .progress-glow {
+            background: linear-gradient(90deg, #76ff03 0%, #b388ff 100%);
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.4);
+        }
+
+        .option-btn {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(118, 255, 3, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: #76ff03;
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.3);
+            transform: translateX(8px);
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { 'neon-green': '#76ff03', 'neon-purple': '#b388ff' } } } }
+    </script>
+</head>
+<body class="text-gray-100 min-h-screen p-4 md:p-8">
+    <div class="container max-w-3xl mx-auto">
+        <div class="progress-glow text-black px-6 py-4 rounded-lg text-center font-bold text-lg mb-8">Step 3 of 4</div>
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 text-white" style="text-wrap: balance;">When did this start?</h1>
+            <p class="text-lg text-gray-300" style="text-wrap: balance;">Choose the timeframe:</p>
+        </div>
+        <form action="/step4" method="POST">
+            <div class="space-y-4">
+                <button type="submit" name="when_started" value="Just now (last 5 minutes)" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100"><span class="text-2xl mr-3">⏱️</span> Just now (last 5 minutes)</button>
+                <button type="submit" name="when_started" value="Within the last hour" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100"><span class="text-2xl mr-3">🕐</span> Within the last hour</button>
+                <button type="submit" name="when_started" value="Earlier today" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100"><span class="text-2xl mr-3">📅</span> Earlier today</button>
+                <button type="submit" name="when_started" value="Yesterday" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100"><span class="text-2xl mr-3">📆</span> Yesterday</button>
+                <button type="submit" name="when_started" value="A few days ago" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100"><span class="text-2xl mr-3">📋</span> A few days ago</button>
+                <button type="submit" name="when_started" value="Not sure when it started" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100"><span class="text-2xl mr-3">❓</span> Not sure</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Nemo Help You | AI Tech Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            min-height: 100vh;
+        }
+
+        .glow-border {
+            border: 2px solid rgba(118, 255, 3, 0.3);
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.2), inset 0 0 20px rgba(118, 255, 3, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(118, 255, 3, 0.2);
+        }
+
+        .neon-green-btn {
+            background: linear-gradient(135deg, #76ff03 0%, #64dd17 100%);
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .neon-green-btn:hover {
+            box-shadow: 0 0 40px rgba(118, 255, 3, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .info-glow {
+            background: rgba(30, 30, 30, 0.6);
+            border-left: 4px solid #76ff03;
+            box-shadow: 0 0 15px rgba(118, 255, 3, 0.1);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .pulse-text { animation: pulse-glow 2s ease-in-out infinite; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { 'neon-green': '#76ff03', 'neon-purple': '#b388ff' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div class="container max-w-4xl mx-auto">
+        <!-- Hero Image Section -->
+        <div class="text-center mb-8">
+            <div class="mb-8 rounded-2xl overflow-hidden glow-border inline-block">
+                <img src="{{ url_for('static', filename='assets/blog-rag-agent-workshop-tech-blog-1920x1080-1-png.webp') }}"
+                     alt="AI Agent Investigation Workflow"
+                     class="w-full max-w-3xl mx-auto"
+                     style="image-rendering: -webkit-optimize-contrast;">
+            </div>
+        </div>
+
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white" style="text-wrap: balance;">
+                <span class="pulse-text text-neon-green">🐠</span> Help Nemo Help You
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300" style="text-wrap: balance;">Hi! I'm Nemo, your AI tech buddy. Tell me what's happening, and together we'll figure it out and get your tech team involved.</p>
+        </div>
+
+        <div class="glass-card glow-border rounded-2xl shadow-2xl p-8 md:p-12 mb-6">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white" style="text-wrap: balance;">🐠 Let's solve this together!</h2>
+            <p class="text-lg text-gray-300 mb-8">Help me understand what's happening by answering a few simple questions. No tech jargon needed!</p>
+
+            <a href="/step1" class="neon-green-btn block text-center text-black font-bold py-5 px-8 rounded-lg text-xl">
+                Start Helping Nemo 🐠
+            </a>
+        </div>
+
+        <div class="info-glow p-6 md:p-8 rounded-lg">
+            <p class="font-bold text-lg text-neon-green mb-3">⚡ How you help Nemo (takes about 2 minutes):</p>
+            <div class="space-y-2 text-gray-300">
+                <p class="flex items-start">
+                    <span class="text-neon-green mr-2 text-xl">✓</span>
+                    <span>Answer simple questions (mostly buttons, minimal typing)</span>
+                </p>
+                <p class="flex items-start">
+                    <span class="text-neon-green mr-2 text-xl">✓</span>
+                    <span>Nemo investigates with AI superpowers 🤖</span>
+                </p>
+                <p class="flex items-start">
+                    <span class="text-neon-green mr-2 text-xl">✓</span>
+                    <span>Get instant results + automatic tech team notification</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

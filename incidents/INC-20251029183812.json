@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-20251029183812",
+  "user_description": "",
+  "what_trying_to_do": "navigate the website",
+  "what_happened_instead": "spinning and time out",
+  "when_started": "2025-10-29T18:38:07.790782",
+  "is_urgent": true,
+  "screenshot_path": null,
+  "additional_notes": null,
+  "submitted_at": "2025-10-29T18:38:12.185058"
+}

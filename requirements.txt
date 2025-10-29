@@ -1,0 +1,24 @@
+# Core dependencies for Incident Response War Room
+
+# Python 3.8+ required
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# LLM integration with NVIDIA Nemotron reasoning model
+openai>=1.0.0
+
+# Optional: For microservices (llm_client.py)
+fastapi>=0.104.0
+uvicorn>=0.24.0
+httpx>=0.24.0
+
+# Web UI (Nonprofit Interface)
+flask>=3.0.0
+
+# Optional: For real-time updates (Phase 3)
+# websockets>=12.0
+
+# Optional: For observability
+# opentelemetry-api>=1.20.0
+# opentelemetry-sdk>=1.20.0

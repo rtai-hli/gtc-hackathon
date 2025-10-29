@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nemo is Investigating | AI Tech Support</title>
+    <meta http-equiv="refresh" content="5;url=/results/{{ incident_id }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            border: 5px solid rgba(118, 255, 3, 0.2);
+            border-top: 5px solid #76ff03;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-item {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        .status-item:nth-child(1) { animation-delay: 0.5s; }
+        .status-item:nth-child(2) { animation-delay: 1.5s; }
+        .status-item:nth-child(3) { animation-delay: 2.5s; }
+        .status-item:nth-child(4) { animation-delay: 3.5s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulse-icon { animation: pulse 2s ease-in-out infinite; }
+
+        .glass-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(118, 255, 3, 0.2);
+        }
+
+        .glow-border {
+            border: 2px solid rgba(118, 255, 3, 0.3);
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.2), inset 0 0 20px rgba(118, 255, 3, 0.1);
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8 text-gray-100">
+    <div class="container max-w-2xl mx-auto">
+        <div class="glass-card glow-border rounded-2xl shadow-2xl p-8 md:p-12 text-center">
+            <div class="flex justify-center mb-6">
+                <div class="spinner"></div>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-bold mb-3 text-white" style="text-wrap: balance;">🐠 Thanks for helping! Nemo is on it...</h1>
+            <p class="text-sm md:text-base text-gray-400 font-mono mb-8">Incident ID: {{ incident_id }}</p>
+
+            <div class="space-y-3 mb-8 text-left">
+                <div class="status-item flex items-center p-4 rounded-lg border-l-4" style="background: rgba(40, 40, 40, 0.8); border-color: #76ff03;">
+                    <span class="text-3xl mr-4 pulse-icon">🔍</span>
+                    <span class="text-base md:text-lg font-medium text-gray-200">Reading what you told me...</span>
+                </div>
+                <div class="status-item flex items-center p-4 rounded-lg border-l-4" style="background: rgba(40, 40, 40, 0.8); border-color: #b388ff;">
+                    <span class="text-3xl mr-4 pulse-icon">🔎</span>
+                    <span class="text-base md:text-lg font-medium text-gray-200">Diving into system logs...</span>
+                </div>
+                <div class="status-item flex items-center p-4 rounded-lg border-l-4" style="background: rgba(40, 40, 40, 0.8); border-color: #ffeb3b;">
+                    <span class="text-3xl mr-4 pulse-icon">💡</span>
+                    <span class="text-base md:text-lg font-medium text-gray-200">I found something!</span>
+                </div>
+                <div class="status-item flex items-center p-4 rounded-lg border-l-4" style="background: rgba(40, 40, 40, 0.8); border-color: #76ff03; box-shadow: 0 0 15px rgba(118, 255, 3, 0.2);">
+                    <span class="text-3xl mr-4 pulse-icon">🐠</span>
+                    <span class="text-base md:text-lg font-medium text-gray-200">Preparing your solution...</span>
+                </div>
+            </div>
+
+            <p class="text-sm md:text-base text-gray-400 animate-pulse">Please wait a moment... You'll be redirected automatically.</p>
+        </div>
+    </div>
+</body>
+</html>

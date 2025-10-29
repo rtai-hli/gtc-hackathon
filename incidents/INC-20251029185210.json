@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-20251029185210",
+  "user_description": "",
+  "what_trying_to_do": "Export or view a report",
+  "what_happened_instead": "The page is loading very slowly",
+  "when_started": "Within the last hour",
+  "is_urgent": true,
+  "screenshot_path": null,
+  "additional_notes": null,
+  "submitted_at": "2025-10-29T18:52:10.560807"
+}

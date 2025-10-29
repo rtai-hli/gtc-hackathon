@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS "Wow" Effects Demo</title>
+    <!-- 1. Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Custom Styles for the effects -->
+    <style>
+        /* 2a. Use the Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+        
+        /* 2b. Setup Scroll Snap on the whole page */
+        html {
+            scroll-snap-type: y mandatory;
+        }
+
+        .scroll-section {
+            scroll-snap-align: start;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* 2c. Setup the Scroll-Driven Animation (Progress Bar) */
+        @keyframes grow-progress {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .progress-bar {
+            /* This is the magic! Link the animation to the document's scroll */
+            animation: grow-progress linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        /* 2d. Setup the shape-outside demo */
+        .shape-circle {
+            float: left;
+            width: 200px;
+            height: 200px;
+            /* This CSS function creates the shape for text to wrap around */
+            shape-outside: circle(50%);
+            clip-path: circle(50%);
+        }
+        
+        /* 2e. Setup the ::first-letter (drop cap) demo */
+        .drop-cap::first-letter {
+            font-size: 4.5rem; /* 72px */
+            font-weight: 700;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            color: #76ff03;
+            text-shadow: 0 0 20px rgba(118, 255, 3, 0.5);
+        }
+        
+        /* 2f. Setup the Relative Color Syntax demo */
+        :root {
+            /* Define a base color using a modern color space (OKLCH) */
+            --brand-color: oklch(78% 0.25 130);
+        }
+
+        .relative-color-btn {
+            background: linear-gradient(135deg, #76ff03 0%, #64dd17 100%);
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .relative-color-btn:hover {
+            /* This is the magic!
+              It takes the --brand-color, and creates a new color
+              by increasing the lightness (l) by 0.1 (10%).
+            */
+            background: linear-gradient(135deg, #8cff33 0%, #76ff03 100%);
+            box-shadow: 0 0 40px rgba(118, 255, 3, 0.6);
+            transform: scale(1.05) translateY(-2px);
+        }
+
+    </style>
+    <!-- 3. Configure Tailwind to use Inter font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="text-gray-900">
+
+    <!--
+      EFFECT 1: SCROLL-DRIVEN ANIMATION
+      This progress bar is fixed to the top. Its width animation
+      is linked to the page's scroll position via 'animation-timeline: scroll(root)'.
+    -->
+    <div class="fixed top-0 left-0 w-full h-2 z-50">
+        <div class="progress-bar h-full w-full" style="background: linear-gradient(90deg, #76ff03 0%, #b388ff 100%); box-shadow: 0 0 20px rgba(118, 255, 3, 0.4);"></div>
+    </div>
+
+    <!-- 
+      EFFECT 2: SCROLL SNAP
+      Each <section> is a snap point.
+    -->
+    
+    <!-- Section 1: Intro -->
+    <section class="scroll-section flex flex-col items-center justify-center p-8 bg-gray-900 text-white text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">CSS "Wow" Effects</h1>
+        <p class="text-xl md:text-2xl text-gray-300">Based on features discussed on Syntax.fm</p>
+        <p class="mt-8 text-lg animate-bounce">Scroll Down to See the Demos 👇</p>
+    </section>
+
+    <!-- Section 2: text-wrap: balance -->
+    <section class="scroll-section flex items-center justify-center p-8" style="background: rgba(30, 30, 30, 0.8);">
+        <div class="max-w-4xl w-full mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #76ff03;">Demo 1: <code>text-wrap: balance</code></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Without -->
+                <div class="p-6 rounded-lg shadow-md" style="background: rgba(40, 40, 40, 0.9); border: 1px solid rgba(255, 0, 0, 0.3);">
+                    <h3 class="text-lg font-semibold text-center text-gray-400 mb-4">Without <code>text-wrap: balance</code></h3>
+                    <p class="text-3xl md:text-5xl font-bold text-center leading-tight" style="color: #ff4444;">This is a long headline that will likely wrap unevenly.</p>
+                </div>
+
+                <!-- With -->
+                <div class="p-6 rounded-lg shadow-md" style="background: rgba(40, 40, 40, 0.9); border: 1px solid rgba(118, 255, 3, 0.3); box-shadow: 0 0 15px rgba(118, 255, 3, 0.2);">
+                    <h3 class="text-lg font-semibold text-center text-gray-400 mb-4">With <code>text-wrap: balance</code></h3>
+                    <!-- This 'style' tag is all it takes! -->
+                    <p class="text-3xl md:text-5xl font-bold text-center leading-tight" style="text-wrap: balance; color: #76ff03;">This is a long headline that will likely wrap unevenly.</p>
+                </div>
+            </div>
+            <p class="text-center mt-8 text-gray-300">Notice how the "with" example avoids a single "widow" word on the last line. (Resize your window to see it adapt!)</p>
+        </div>
+    </section>
+
+    <!-- Section 3: shape-outside & ::first-letter -->
+    <section class="scroll-section flex items-center justify-center p-8 bg-gray-900 text-white">
+        <div class="max-w-4xl w-full mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Demo 2: <code>shape-outside</code> & <code>::first-letter</code></h2>
+            <div class="bg-gray-800 p-8 md:p-12 rounded-lg shadow-2xl overflow-hidden">
+                <!-- 
+                  EFFECT 3: SHAPE-OUTSIDE 
+                  This div is invisible but provides a circular shape
+                  for the text to wrap around.
+                -->
+                <div class="shape-circle mr-6 mb-4" style="background: linear-gradient(135deg, #76ff03 0%, #b388ff 100%); box-shadow: 0 0 30px rgba(118, 255, 3, 0.3);"></div>
+                
+                <!-- 
+                  EFFECT 4: ::first-letter
+                  The 'drop-cap' class applies the effect to this <p> tag.
+                -->
+                <p class="drop-cap text-lg text-gray-300 leading-relaxed">
+                    This text demonstrates the '::first-letter' pseudo-element, creating a stylish drop cap. More importantly, notice how the text gracefully wraps around the circular element on the left. This is achieved using 'shape-outside: circle()'. It allows content to flow along the contour of complex shapes, not just boring rectangles. This is a powerful tool for creating dynamic, magazine-style layouts directly in CSS without complex hacks. As you resize the window, you'll see the text reflow perfectly around the circle's defined shape, maintaining a clean and professional margin.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Relative Color Syntax -->
+    <section class="scroll-section flex flex-col items-center justify-center p-8" style="background: rgba(30, 30, 30, 0.8);">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-6" style="color: #76ff03;">Demo 3: Relative Color Syntax</h2>
+        <p class="text-center text-lg text-gray-300 mb-8 max-w-2xl">This button's base color is <code>--brand-color</code>. The hover state is calculated *from* that variable to be 10% lighter, directly in CSS.</p>
+        
+        <!-- 
+          EFFECT 5: RELATIVE COLOR SYNTAX
+          The 'relative-color-btn' class handles this effect.
+        -->
+        <button class="relative-color-btn text-black font-bold py-4 px-8 rounded-lg text-xl shadow-lg">
+            Hover Me!
+        </button>
+    </section>
+
+</body>
+</html>

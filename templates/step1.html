@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 1 of 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        .progress-glow {
+            background: linear-gradient(90deg, #76ff03 0%, #b388ff 100%);
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.4);
+        }
+
+        .option-btn {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(118, 255, 3, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: #76ff03;
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.3);
+            transform: translateX(8px);
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { 'neon-green': '#76ff03', 'neon-purple': '#b388ff' } } } }
+    </script>
+</head>
+<body class="text-gray-100 min-h-screen p-4 md:p-8">
+    <div class="container max-w-3xl mx-auto">
+        <div class="progress-glow text-black px-6 py-4 rounded-lg text-center font-bold text-lg mb-8">
+            Step 1 of 4
+        </div>
+
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 text-white" style="text-wrap: balance;">What were you trying to do?</h1>
+            <p class="text-lg text-gray-300" style="text-wrap: balance;">Select the option that best describes what you were doing:</p>
+        </div>
+
+        <form action="/step2" method="POST">
+            <div class="space-y-4">
+                <button type="submit" name="what_trying" value="Add a new donor or volunteer to the database" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">📝</span> Add a new donor or volunteer
+                </button>
+
+                <button type="submit" name="what_trying" value="Send email receipts or messages" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">📧</span> Send email receipts or messages
+                </button>
+
+                <button type="submit" name="what_trying" value="Access or load a page on our website" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">🌐</span> Access our website
+                </button>
+
+                <button type="submit" name="what_trying" value="Process a donation or payment" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">💳</span> Process a donation or payment
+                </button>
+
+                <button type="submit" name="what_trying" value="Export or view a report" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">📊</span> View or export a report
+                </button>
+
+                <button type="submit" name="what_trying" value="Log in to the system" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">🔐</span> Log in to the system
+                </button>
+
+                <button type="submit" name="what_trying" value="Something else" class="option-btn w-full text-left px-6 py-5 rounded-xl text-lg font-medium text-gray-100">
+                    <span class="text-2xl mr-3">❓</span> Something else
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

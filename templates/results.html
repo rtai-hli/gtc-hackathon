@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nemo Found a Solution! | AI Tech Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            min-height: 100vh;
+        }
+
+        :root { --brand-color: oklch(78% 0.25 130); }
+
+        .glass-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(118, 255, 3, 0.2);
+        }
+
+        .neon-green-btn {
+            background: linear-gradient(135deg, #76ff03 0%, #64dd17 100%);
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .neon-green-btn:hover {
+            box-shadow: 0 0 40px rgba(118, 255, 3, 0.6);
+            transform: scale(1.02) translateY(-2px);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #76ff03 0%, #64dd17 100%);
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #8cff33 0%, #76ff03 100%);
+            box-shadow: 0 0 40px rgba(118, 255, 3, 0.6);
+            transform: scale(1.02) translateY(-2px);
+        }
+
+        .text-box {
+            background: rgba(40, 40, 40, 0.9);
+            border: 2px dashed rgba(179, 136, 255, 0.4);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .text-box:hover {
+            background: rgba(50, 50, 50, 0.95);
+            border-color: rgba(179, 136, 255, 0.6);
+        }
+
+        .glow-border {
+            border: 2px solid rgba(118, 255, 3, 0.3);
+            box-shadow: 0 0 20px rgba(118, 255, 3, 0.2), inset 0 0 20px rgba(118, 255, 3, 0.1);
+        }
+
+        .info-glow {
+            background: rgba(30, 30, 30, 0.6);
+            border-left: 4px solid #76ff03;
+            box-shadow: 0 0 15px rgba(118, 255, 3, 0.1);
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+</head>
+<body class="min-h-screen p-4 md:p-8 text-gray-100">
+    <div class="container max-w-4xl mx-auto">
+        <div class="glass-card glow-border rounded-2xl shadow-2xl p-8 md:p-10 mb-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3" style="text-wrap: balance; color: #76ff03;">🐠 We did it! Nemo found the issue</h1>
+            <p class="text-sm md:text-base text-gray-400 font-mono">Incident ID: {{ incident_id }}</p>
+        </div>
+
+        <div class="glass-card rounded-xl shadow-lg p-8 md:p-10 mb-6">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-white" style="text-wrap: balance;">🐠 Here's what I discovered</h2>
+            <div class="info-glow p-6 md:p-8 rounded-lg whitespace-pre-line leading-relaxed text-gray-200">
+                {{ user_summary|safe }}
+            </div>
+        </div>
+
+        <div class="glass-card rounded-xl shadow-lg p-8 md:p-10 mb-6" style="border: 2px solid rgba(179, 136, 255, 0.3);">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white" style="text-wrap: balance;">📱 Text the Tech Team</h2>
+            <p class="text-lg text-gray-300 mb-6">Click the button below to copy a ready-to-send text message:</p>
+
+            <div class="text-box p-6 rounded-lg font-mono text-sm md:text-base whitespace-pre-line mb-6 cursor-pointer select-all text-gray-200" id="textBox">{{ text_summary }}</div>
+
+            <button onclick="copyToClipboard()" class="copy-btn w-full text-black font-bold py-5 px-8 rounded-lg text-xl shadow-lg hover:shadow-xl" id="copyButton">
+                📋 Copy Message
+            </button>
+            <p class="text-center text-sm md:text-base text-gray-400 mt-4 transition-all" id="copyHint">Click to copy, then paste into your messaging app</p>
+        </div>
+
+        <div class="info-glow p-6 md:p-8 rounded-lg shadow-md mb-6">
+            <p class="font-bold text-lg md:text-xl mb-4" style="color: #76ff03;">What happens next:</p>
+            <ul class="space-y-3">
+                <li class="flex items-start text-gray-200">
+                    <span class="mr-3 text-xl flex-shrink-0" style="color: #76ff03;">✓</span>
+                    <span>The technical team has been automatically notified</span>
+                </li>
+                <li class="flex items-start text-gray-200">
+                    <span class="mr-3 text-xl flex-shrink-0" style="color: #76ff03;">✓</span>
+                    <span>They have all the details they need to fix this</span>
+                </li>
+                <li class="flex items-start text-gray-200">
+                    <span class="mr-3 text-xl flex-shrink-0" style="color: #76ff03;">✓</span>
+                    <span>You can also text them using the message above</span>
+                </li>
+                <li class="flex items-start text-gray-200">
+                    <span class="mr-3 text-xl flex-shrink-0" style="color: #76ff03;">✓</span>
+                    <span>Use your incident ID ({{ incident_id }}) to track progress</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="text-center">
+            <a href="/" class="neon-green-btn inline-block text-black font-bold py-4 px-8 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-200">
+                Help Nemo With Another Issue 🐠
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const textBox = document.getElementById('textBox');
+            const copyButton = document.getElementById('copyButton');
+            const copyHint = document.getElementById('copyHint');
+            const text = textBox.innerText;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    copyButton.innerHTML = '✅ Copied!';
+                    copyButton.classList.remove('copy-btn');
+                    copyButton.style.backgroundColor = '#28a745';
+                    copyHint.innerHTML = 'Now paste this into your messaging app';
+                    copyHint.style.color = '#28a745';
+                    copyHint.style.fontWeight = 'bold';
+
+                    setTimeout(() => {
+                        copyButton.innerHTML = '📋 Copy Message';
+                        copyButton.classList.add('copy-btn');
+                        copyButton.style.backgroundColor = '';
+                        copyHint.innerHTML = 'Click to copy, then paste into your messaging app';
+                        copyHint.style.color = '';
+                        copyHint.style.fontWeight = '';
+                    }, 3000);
+                }).catch(err => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                const copyButton = document.getElementById('copyButton');
+                const copyHint = document.getElementById('copyHint');
+                copyButton.innerHTML = '✅ Copied!';
+                copyButton.style.backgroundColor = '#28a745';
+                copyHint.innerHTML = 'Now paste this into your messaging app';
+                copyHint.style.color = '#28a745';
+
+                setTimeout(() => {
+                    copyButton.innerHTML = '📋 Copy Message';
+                    copyButton.style.backgroundColor = '';
+                    copyHint.innerHTML = 'Click to copy, then paste into your messaging app';
+                    copyHint.style.color = '';
+                }, 3000);
+            } catch (err) {
+                alert('Please manually copy the text above');
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        document.getElementById('textBox').addEventListener('click', function() {
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+    </script>
+</body>
+</html>
