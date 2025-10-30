@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nemo's War Room | Real-Time Investigation</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', 'Monaco', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            border: 4px solid rgba(118, 255, 3, 0.2);
+            border-top: 4px solid #76ff03;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 30px rgba(118, 255, 3, 0.3);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .agent-message {
+            animation: slideInLeft 0.3s ease-out forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .pulse-icon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .glass-card {
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(118, 255, 3, 0.2);
+        }
+
+        .glow-border {
+            border: 2px solid rgba(118, 255, 3, 0.4);
+            box-shadow: 0 0 25px rgba(118, 255, 3, 0.2), inset 0 0 25px rgba(118, 255, 3, 0.05);
+        }
+
+        .conversation-log {
+            max-height: 500px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .conversation-log::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .conversation-log::-webkit-scrollbar-track {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 10px;
+        }
+
+        .conversation-log::-webkit-scrollbar-thumb {
+            background: rgba(118, 255, 3, 0.3);
+            border-radius: 10px;
+        }
+
+        .conversation-log::-webkit-scrollbar-thumb:hover {
+            background: rgba(118, 255, 3, 0.5);
+        }
+
+        /* Agent role colors */
+        .commander { border-left-color: #76ff03; }
+        .system-investigator { border-left-color: #b388ff; }
+        .code-detective { border-left-color: #ffeb3b; }
+        .thinking { background: rgba(118, 255, 3, 0.05); }
+        .action { background: rgba(179, 136, 255, 0.05); }
+        .observation { background: rgba(255, 235, 59, 0.05); }
+        .decision { background: rgba(76, 175, 80, 0.1); }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-investigating {
+            background: rgba(118, 255, 3, 0.2);
+            color: #76ff03;
+        }
+
+        .status-complete {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(118, 255, 3, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(118, 255, 3, 0.4); }
+        }
+
+        .war-room-active {
+            animation: glow 2s ease-in-out infinite;
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['Monaco', 'monospace'] } } } }
+    </script>
+</head>
+<body class="min-h-screen p-4 md:p-8 text-gray-100">
+    <div class="container max-w-5xl mx-auto">
+        <!-- Header -->
+        <div class="glass-card glow-border rounded-2xl shadow-2xl p-6 md:p-8 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="spinner"></div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+                            🐠 Nemo's War Room
+                            <span class="status-badge status-investigating" id="status-badge">Investigating</span>
+                        </h1>
+                        <p class="text-sm text-gray-400 font-mono mt-1">Incident ID: {{ incident_id }}</p>
+                    </div>
+                </div>
+                <div class="text-right hidden md:block">
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Connection Status</div>
+                    <div class="text-sm font-semibold" id="connection-status">
+                        <span class="text-yellow-400">⚡ Connecting...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agent Conversations -->
+        <div class="glass-card glow-border war-room-active rounded-2xl shadow-2xl p-6 md:p-8">
+            <div class="mb-4 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span class="text-2xl">🎙️</span>
+                    Live War Room Communications
+                </h2>
+                <p class="text-sm text-gray-400 mt-1">Real-time commander and agent interactions</p>
+            </div>
+
+            <div class="conversation-log space-y-3" id="conversation-log">
+                <!-- Initial message -->
+                <div class="agent-message p-4 rounded-lg border-l-4 glass-card commander">
+                    <div class="flex items-start">
+                        <span class="text-2xl mr-3 pulse-icon">🧠</span>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm text-green-400">Commander</span>
+                                <span class="text-xs text-gray-500 font-mono" id="init-time"></span>
+                            </div>
+                            <p class="text-sm text-gray-200">War room initialized. Starting incident assessment...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading indicator when no messages -->
+            <div id="loading-indicator" class="text-center py-8 hidden">
+                <div class="spinner mx-auto mb-4"></div>
+                <p class="text-gray-400 text-sm">Waiting for agent communications...</p>
+            </div>
+        </div>
+
+        <!-- Progress indicator -->
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-400 animate-pulse" id="progress-message">
+                🔍 Agents are collaborating to find the root cause...
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize time
+        document.getElementById('init-time').textContent = new Date().toLocaleTimeString();
+
+        // Connect to WebSocket
+        const socket = io('http://localhost:5000/investigation');
+
+        const conversationLog = document.getElementById('conversation-log');
+        const statusBadge = document.getElementById('status-badge');
+        const progressMessage = document.getElementById('progress-message');
+        const connectionStatus = document.getElementById('connection-status');
+
+        // Connection handlers
+        socket.on('connect', () => {
+            console.log('✅ Connected to war room');
+            connectionStatus.innerHTML = '<span class="text-green-400">✅ Connected</span>';
+        });
+
+        socket.on('disconnect', () => {
+            console.log('❌ Disconnected from war room');
+            connectionStatus.innerHTML = '<span class="text-red-400">❌ Disconnected</span>';
+        });
+
+        // Agent event handler
+        socket.on('agent_event', (event) => {
+            console.log('📡 Agent event:', event);
+            addAgentMessage(event);
+        });
+
+        // Investigation complete handler
+        socket.on('investigation_complete', (data) => {
+            console.log('✅ Investigation complete:', data);
+            statusBadge.textContent = 'Complete';
+            statusBadge.className = 'status-badge status-complete';
+            progressMessage.innerHTML = '✅ Root cause identified! Redirecting to results...';
+
+            // Redirect after 3 seconds
+            setTimeout(() => {
+                window.location.href = `/results/${data.incident_id}`;
+            }, 3000);
+        });
+
+        function addAgentMessage(event) {
+            const messageDiv = document.createElement('div');
+
+            // Determine agent role class
+            const agentClass = event.agent.toLowerCase().replace(' ', '-');
+
+            // Determine event type class
+            const eventClass = event.type;
+
+            // Format timestamp
+            const timestamp = new Date(event.timestamp).toLocaleTimeString();
+
+            // Agent color mapping
+            const agentColors = {
+                'commander': 'text-green-400',
+                'system investigator': 'text-purple-400',
+                'code detective': 'text-yellow-400',
+                'general investigator': 'text-blue-400'
+            };
+
+            const agentColor = agentColors[event.agent.toLowerCase()] || 'text-gray-400';
+
+            messageDiv.className = `agent-message p-4 rounded-lg border-l-4 glass-card ${agentClass} ${eventClass}`;
+            messageDiv.innerHTML = `
+                <div class="flex items-start">
+                    <span class="text-2xl mr-3">${event.icon}</span>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-sm ${agentColor}">${event.agent}</span>
+                            <span class="text-xs text-gray-500 font-mono">${timestamp}</span>
+                        </div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">${event.type}</div>
+                        <p class="text-sm text-gray-200">${escapeHtml(event.content)}</p>
+                        ${event.metadata && Object.keys(event.metadata).length > 0 ?
+                            `<div class="mt-2 text-xs text-gray-500 font-mono">
+                                ${formatMetadata(event.metadata)}
+                            </div>` : ''}
+                    </div>
+                </div>
+            `;
+
+            conversationLog.appendChild(messageDiv);
+            conversationLog.scrollTop = conversationLog.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatMetadata(metadata) {
+            return Object.entries(metadata)
+                .map(([key, value]) => `<span class="text-gray-600">${key}:</span> ${value}`)
+                .join(' | ');
+        }
+
+        // Update progress message periodically
+        const progressMessages = [
+            '🔍 Analyzing system metrics...',
+            '📊 Checking recent deployments...',
+            '📝 Reviewing application logs...',
+            '🧩 Correlating evidence...',
+            '💡 Forming hypotheses...',
+            '🎯 Determining root cause...'
+        ];
+
+        let messageIndex = 0;
+        setInterval(() => {
+            messageIndex = (messageIndex + 1) % progressMessages.length;
+            progressMessage.textContent = progressMessages[messageIndex];
+        }, 4000);
+    </script>
+</body>
+</html>
