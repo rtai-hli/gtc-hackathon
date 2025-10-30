@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-20251029200151",
+  "user_description": "",
+  "what_trying_to_do": "Process a donation or payment",
+  "what_happened_instead": "Got an error message",
+  "when_started": "Within the last hour",
+  "is_urgent": true,
+  "screenshot_path": null,
+  "additional_notes": null,
+  "submitted_at": "2025-10-29T20:01:51.257036"
+}

@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-20251029201239",
+  "user_description": "",
+  "what_trying_to_do": "Access or load a page on our website",
+  "what_happened_instead": "Nothing happened when I clicked",
+  "when_started": "Earlier today",
+  "is_urgent": true,
+  "screenshot_path": null,
+  "additional_notes": null,
+  "submitted_at": "2025-10-29T20:12:39.858060"
+}
